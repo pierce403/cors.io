@@ -10,8 +10,6 @@ import requests
 
 @app.route('/')
 def index():
-  print("potato")
-
   qs=request.query_string
 
   if qs:
