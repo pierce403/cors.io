@@ -1,0 +1,20 @@
+<html><head><title>cors.io</title></head>
+<body><center><br><br>
+
+<big><b>The Problem:</b></big><br>
+No 'Access-Control-Allow-Origin' header is present on the requested resource.
+<br>Origin 'http://internet.derp' is therefore not allowed access.<br><br>
+
+<big><b>The Solution:</b></big><br>
+A CORS proxy!<br><br>
+
+
+$.getJSON('https://blockchain.info/stats?format=json',function(){})<br><br>
+
+becomes ..<br><br>
+
+$.getJSON('<b>http://cors.io/?</b>https://blockchain.info/stats?format=json',function(){})<br><br>
+
+<font color="red"><b>WARNING : API CHANGE! THE u= IS NO LONGER USED</b></font><br><br>
+
+send hatemail to <a href="https://twitter.com/deanpierce">@deanpierce</a>

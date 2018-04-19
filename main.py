@@ -1,48 +1,32 @@
-import webapp2
-from time import time
-from google.appengine.api import urlfetch
-import urllib2
+from flask import render_template
+from flask import request
 
-class MainPage(webapp2.RequestHandler):
-  def get(self):
+import time
+import flask
+from flask import Flask
+app = Flask(__name__)
 
-    if self.request.query_string:
-      self.response.headers.add_header("Access-Control-Allow-Origin", "*")
-      hdr = { 'User-Agent' : self.request.headers['User-Agent'] }
-      req = urllib2.Request(self.request.query_string, headers=hdr)
-      self.response.out.write(urllib2.urlopen(req).read())
+import requests
 
-    else:
-      self.response.out.write('''
-<html><head><title>cors.io</title></head>
-<body><center><br><br>
+@app.route('/')
+def index():
+  print("potato")
 
-<big><b>The Problem:</b></big><br>
-No 'Access-Control-Allow-Origin' header is present on the requested resource.
-<br>Origin 'http://internet.derp' is therefore not allowed access.<br><br>
+  qs=request.query_string
 
-<big><b>The Solution:</b></big><br>
-A CORS proxy!<br><br>
+  if qs:
+    try:
+      agent = request.headers.get('User-Agent')
+      user_agent = {'User-agent': agent}
+      rt = requests.get(qs.decode('utf8'), headers = user_agent).text
+    except:
+      rt = "nope"
 
+    response = flask.Response(rt)
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
+  else:
+    print("nope")
 
-$.getJSON('https://blockchain.info/stats?format=json',function(){})<br><br>
+  return render_template('index.html')
 
-becomes ..<br><br>
-
-$.getJSON('<b>https://cors.io/?</b>https://blockchain.info/stats?format=json',function(){})<br><br>
-
-send hatemail to <a href="https://twitter.com/deanpierce">@deanpierce</a>
-
-''')
-
-  def post(self):
-
-    if self.request.query_string:
-      self.response.headers.add_header("Access-Control-Allow-Origin", "*")
-      hdr = { 'User-Agent' : self.request.headers['User-Agent'] }
-      req = urllib2.Request(self.request.query_string, self.request.arguments(), headers=hdr)
-      res = urllib2.urlopen(req)
-      self.response.headers['Content-Type'] = res.info().type
-      self.response.out.write(res.read())
-
-app = webapp2.WSGIApplication([('/',MainPage)])
