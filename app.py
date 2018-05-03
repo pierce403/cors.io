@@ -16,7 +16,8 @@ def index():
     try:
       agent = request.headers.get('User-Agent')
       user_agent = {'User-agent': agent}
-      rt = requests.get(qs.decode('utf8'), headers = user_agent).text
+      r = requests.get(qs.decode('utf8'), headers = user_agent).text
+      rt = r.text
     except:
       rt = "nope"
 
