@@ -22,7 +22,7 @@ def index():
 
     response = flask.Response(rt)
     response.headers['Access-Control-Allow-Origin'] = '*'
-    return response
+    return response, rt.status_code
   else:
     print("nope")
 
