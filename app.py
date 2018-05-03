@@ -16,14 +16,14 @@ def index():
     try:
       agent = request.headers.get('User-Agent')
       user_agent = {'User-agent': agent}
-      r = requests.get(qs.decode('utf8'), headers = user_agent).text
+      r = requests.get(qs.decode('utf8'), headers = user_agent)
       rt = r.text
     except:
-      rt = "nope"
+      return "nope"
 
     response = flask.Response(rt)
     response.headers['Access-Control-Allow-Origin'] = '*'
-    return response, rt.status_code
+    return response, r.status_code
   else:
     print("nope")
 
