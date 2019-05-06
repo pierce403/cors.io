@@ -1,4 +1,10 @@
-<html><head><title>cors.io</title></head>
+<html>
+<head>
+<title>cors.io</title>
+<style>
+hr { width: 20%; }
+</style>
+</head>
 <body><center><br><br>
 
 <big><b>The Problem:</b></big><br>
@@ -14,5 +20,13 @@ $.getJSON('https://blockchain.info/stats?format=json',function(){})<br><br>
 becomes ..<br><br>
 
 $.getJSON('<b>http://cors.io/?</b>https://blockchain.info/stats?format=json',function(){})<br><br>
+
+<hr>
+
+$.post('https://www.hurlit.com',data,function(){})<br><br>
+
+becomes ..<br><br>
+
+$.post('<b>http://cors.io/?</b>https://www.hurlit.com',data,function(){})<br><br>
 
 send hatemail to <a href="https://twitter.com/deanpierce">@deanpierce</a>
