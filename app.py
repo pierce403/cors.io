@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 import requests
 
-@app.route('/', methods=["GET", "POST", "OPTIONS"])
+@app.route('/', methods=("GET", "POST", "OPTIONS"))
 def index():
   qs=request.query_string
 
@@ -24,7 +24,7 @@ def index():
       if request.method == "POST":
         user_data = {}
           
-        if ctype == 'application/json':
+        if 'application/json' in ctype:
           user_data = request.data
         else:
           user_data = request.form.to_dict()
@@ -38,7 +38,13 @@ def index():
       elif request.method == "GET":
         r = requests.get(qs, headers = user_agent)
       elif request.method == "OPTIONS":
-        r = requests.options(qs, headers = user_agent)
+        '''
+        OPTIONS has recently been used before POST in some libraries
+        but not all websites have an OPTIONS http method; therefore,
+        we provide a request to ourself in order to return
+        the correct headers with correct response code and data
+        '''
+        r = requests.options(request.base_url, headers = user_agent)
 
       rt = r.text
     except:
@@ -65,7 +71,7 @@ def index():
           In our case, it is the headers that the user requested to use
           so, the ones in Access-Control-Request-Headers
     '''
-    response.headers['Access-Control-Allow-Methods'] = 'GET, POST'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
     response.headers['Access-Control-Allow-Headers'] = request.headers.get('Access-Control-Request-Headers')
 
     return response, status_code
