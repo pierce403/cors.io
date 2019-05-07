@@ -23,14 +23,18 @@ def index():
 
       if request.method == "POST":
         user_data = {}
+          
         if ctype == 'application/json':
           user_data = request.data
-        elif ctype == 'application/x-www-form-urlencoded':
+        else:
           user_data = request.form.to_dict()
 
-        print(user_data);
+        if 'multipart/form-data' in ctype:
+          user_files = request.files.to_dict()
 
-        r = requests.post(qs, headers = user_agent, data = user_data)
+          r = requests.post(qs, headers = user_agent, data = user_data, files = user_files)
+        else:
+          r = requests.post(qs, headers = user_agent, data = user_data)
       elif request.method == "GET":
         r = requests.get(qs, headers = user_agent)
       elif request.method == "OPTIONS":
