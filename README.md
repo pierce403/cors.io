@@ -5,7 +5,11 @@ Now fully flaskified, and ready for deployment on heroku.
 
 ## Table of Contents
 
-[TOC]
+- [Supported HTTP Methods](#Supported-HTTP-Methods)
+    * [GET Request](#GET-Request)
+    * [POST Request](#POST-Request)
+    * [OPTIONS Request](#OPTIONS-Request)
+- [Deploying on Heroku](#Deploying-on-Heroku)
 
 ## Supported HTTP Methods
 
