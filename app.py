@@ -17,9 +17,14 @@ def index():
       qs = qs.decode('utf8')
 
       agent = request.headers.get('User-Agent')
+      oauth = request.headers.get('Authorization')
       ctype = request.headers.get('Content-Type')
 
-      user_agent = {'User-agent': agent}
+      headers = {}
+      if agent is not None:
+        headers['User-Agent'] = agent;
+      if oauth is not None:
+        headers['Authorization'] = oauth;
 
       if request.method == "POST":
         user_data = {}
@@ -32,11 +37,11 @@ def index():
         if 'multipart/form-data' in ctype:
           user_files = request.files.to_dict()
 
-          r = requests.post(qs, headers = user_agent, data = user_data, files = user_files)
+          r = requests.post(qs, headers = headers, data = user_data, files = user_files)
         else:
-          r = requests.post(qs, headers = user_agent, data = user_data)
+          r = requests.post(qs, headers = headers, data = user_data)
       elif request.method == "GET":
-        r = requests.get(qs, headers = user_agent)
+        r = requests.get(qs, headers = headers)
       elif request.method == "OPTIONS":
         '''
         OPTIONS has recently been used before POST in some libraries
@@ -44,7 +49,7 @@ def index():
         we provide a request to ourself in order to return
         the correct headers with correct response code and data
         '''
-        r = requests.options(request.base_url, headers = user_agent)
+        r = requests.options(request.base_url, headers = headers)
 
       rt = r.text
     except:
