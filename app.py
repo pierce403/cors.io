@@ -25,7 +25,7 @@ def index():
         headers['User-Agent'] = agent;
       if oauth is not None:
         headers['Authorization'] = oauth;
-
+        
       if request.method == "POST":
         user_data = {}
           
@@ -67,7 +67,10 @@ def index():
       status_code = 200
 
     response.headers['Access-Control-Allow-Origin'] = '*'
-
+    
+    # ensure that data getting passed back is plain text
+    response.headers['Content-Type'] = "text/plain"
+    
     '''
     preflight CORS policy response headers
       - Returns Allowed Methods:
@@ -78,7 +81,7 @@ def index():
     '''
     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
     response.headers['Access-Control-Allow-Headers'] = request.headers.get('Access-Control-Request-Headers')
-
+    
     return response, status_code
   else:
     print("nope")
